@@ -43,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the Wi-Fi manager
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
+        // Check if Wi-Fi is turned off
+        if (!wifiManager.isWifiEnabled()) {
+            // Notify the user and redirect to Wi-Fi settings
+            Toast.makeText(this, "Wi-Fi is turned off. Redirecting to settings...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
+            startActivity(intent);
+            finish(); // Optionally, close the current activity if it's not relevant without Wi-Fi
+            return; // Stop further execution of onCreate
+        }
+
         // Initialize the RecyclerView and set its layout manager
         wifiRecyclerView = findViewById(R.id.wifiRecyclerView);
         wifiRecyclerView.setLayoutManager(new LinearLayoutManager(this));
