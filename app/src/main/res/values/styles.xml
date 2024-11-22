@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WifiButtonStyle">
+        <item name="android:layout_width">match_parent</item> <!-- Full width -->
+        <item name="android:layout_height">wrap_content</item> <!-- Height adjusts to content -->
+        <item name="android:textColor">#ffffff</item> <!-- White text color -->
+        <item name="android:background">@drawable/button_background</item> <!-- Teal background with border radius -->
+        <item name="android:textSize">18sp</item> <!-- Larger text -->
+        <item name="android:padding">16dp</item> <!-- Padding inside button -->
+        <item name="android:layout_marginBottom">8dp</item> <!-- Bottom margin for spacing -->
+        <item name="android:gravity">center</item> <!-- Center text inside the button -->
+        <item name="android:fontFamily">sans-serif-medium</item> <!-- Font for the button text -->
+    </style>
+</resources>
