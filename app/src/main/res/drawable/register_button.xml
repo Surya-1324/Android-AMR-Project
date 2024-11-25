@@ -1,0 +1,11 @@
+<!-- edit_text_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="@color/main" /> <!-- Color of the background -->
+
+    <!-- Optional: Add rounded corners -->
+    <corners android:radius="7.5dp" /> <!-- Radius for rounded corners (adjust as needed) -->
+
+    <!-- Optional: Add a border color -->
+
+</shape>

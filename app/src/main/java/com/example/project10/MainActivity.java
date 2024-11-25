@@ -1,162 +1,58 @@
 package com.example.project10;
 
-import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
+import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.pm.PackageManager;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
-
-    private WifiManager wifiManager;
-    private RecyclerView wifiRecyclerView;
-    private WifiNetworkAdapter wifiNetworkAdapter;
-    private List<String> uniqueNetworks = new ArrayList<>();
-    private ProgressBar progressBar;
-
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int[] images = new int[] {
+                R.drawable.astra,  // replace with your image resources
+                R.drawable.astra,
+                R.drawable.astra
+        };
+        // Initialize ViewPager2
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
 
-        // Initialize the Wi-Fi manager
-        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        // Set the adapter for ViewPager2
+        ImageAdapter adapter = new ImageAdapter(images);
+        viewPager.setAdapter(adapter);
 
-        // Check if Wi-Fi is turned off
-        if (!wifiManager.isWifiEnabled()) {
-            // Notify the user and redirect to Wi-Fi settings
-            Toast.makeText(this, "Wi-Fi is turned off. Redirecting to settings...", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
+        // Initialize TabLayout
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+
+
+        // Link ViewPager2 and TabLayout (dots indicator)
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            // Empty, no specific configuration for tabs
+        }).attach();
+
+        viewPager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int currentItem = viewPager.getCurrentItem();
+                int nextItem = (currentItem == images.length - 1) ? 0 : currentItem + 1;
+                viewPager.setCurrentItem(nextItem, true);
+                viewPager.postDelayed(this, 3000);  // Auto-change every 3 seconds
+            }
+        }, 1000);
+        new Handler().postDelayed(() -> {
+
+            Intent intent = new Intent(MainActivity.this, SignIn.class);
             startActivity(intent);
-            finish(); // Optionally, close the current activity if it's not relevant without Wi-Fi
-            return; // Stop further execution of onCreate
-        }
 
-        // Initialize the RecyclerView and set its layout manager
-        wifiRecyclerView = findViewById(R.id.wifiRecyclerView);
-        wifiRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize the ProgressBar
-        progressBar = findViewById(R.id.progressBar);
-
-        // Initially, set up the adapter with an empty list (RecyclerView will be empty initially)
-        wifiNetworkAdapter = new WifiNetworkAdapter(this, uniqueNetworks);
-        wifiRecyclerView.setAdapter(wifiNetworkAdapter);
-
-        // Set up the scan button click listener
-        Button scanButton = findViewById(R.id.scan_button);
-        scanButton.setOnClickListener(view -> scanForWifiNetworks());
-
-        // Register the receiver for Wi-Fi scan results
-        registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-        // Check and request location permissions if necessary
-        checkAndRequestPermissions();
+            finish();
+        }, 3000);
+    }
     }
 
-    private void scanForWifiNetworks() {
-        // Clear the existing list of networks before starting a new scan
-        uniqueNetworks.clear();
-        wifiNetworkAdapter.notifyDataSetChanged(); // Notify adapter to clear RecyclerView
 
-        if (!wifiManager.isWifiEnabled()) {
-            wifiManager.setWifiEnabled(true); // Enable Wi-Fi if it's not enabled
-        }
 
-        // Show the ProgressBar while scanning
-        progressBar.setVisibility(View.VISIBLE);
-
-        wifiManager.startScan(); // Start Wi-Fi scan
-    }
-
-    private final BroadcastReceiver wifiScanReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Hide the ProgressBar when scanning is done
-            progressBar.setVisibility(View.GONE);
-
-            List<ScanResult> scanResults = wifiManager.getScanResults();
-            uniqueNetworks.clear(); // Clear the list of networks
-
-            for (ScanResult result : scanResults) {
-                String ssid = result.SSID;
-
-                // Check if the SSID is already in the list to avoid duplicates
-                if (!uniqueNetworks.contains(ssid) && ssid.length()>0) {
-                    uniqueNetworks.add(ssid); // Add SSID to the list
-                }
-            }
-
-            // Update RecyclerView with new Wi-Fi networks
-            wifiNetworkAdapter = new WifiNetworkAdapter(context, uniqueNetworks);
-            wifiRecyclerView.setAdapter(wifiNetworkAdapter);
-
-            checkWifiConnectionAndStartActivity(context);
-        }
-    };
-    private void checkWifiConnectionAndStartActivity(Context context) {
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (wifiInfo != null && wifiInfo.getNetworkId() != -1) {
-            // The device is connected to a Wi-Fi network
-            String ssid = wifiInfo.getSSID();
-            if (ssid != null && !ssid.isEmpty()) {
-                // Wi-Fi is connected, start a new activity
-                Intent intent = new Intent(context, WifiSettingsActivity.class); // Replace with your activity class
-                context.startActivity(intent);
-            }
-        }
-    }
-
-    private void checkAndRequestPermissions() {
-        // Check for location permissions
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // If permissions are not granted, request them
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION_PERMISSION);
-        } else {
-            // If permission already granted, start scanning
-            scanForWifiNetworks();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, start scanning
-                scanForWifiNetworks();
-            } else {
-                // Permission denied, show a message to the user
-                Toast.makeText(this, "Location permission is required to scan Wi-Fi networks", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Unregister the receiver to avoid memory leaks
-        unregisterReceiver(wifiScanReceiver);
-    }
-}

@@ -18,10 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WifiSettingsActivity"
-            android:exported="true">
-            <!-- Add any specific intent filters or additional attributes if needed -->
-        </activity>
+        <activity android:name=".SignIn"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true" />
+
+        <!-- Profile Activity -->
+        <activity android:name=".SignUp"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

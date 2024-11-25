@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-11-22T07:41:37.075716Z">
+        <DropdownSelection timestamp="2024-11-25T06:15:45.631739700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\pilabz-inc-1\.android\avd\Tablet_1024p_landscape_API_29.avd" />
