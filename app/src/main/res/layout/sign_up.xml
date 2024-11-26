@@ -258,6 +258,7 @@
             android:background="@drawable/register_button"
             android:fontFamily="@font/montserrat"
             android:text="Register"
+            android:textAllCaps="false"
             android:textColor="@color/white" />
 
         <LinearLayout

@@ -197,7 +197,7 @@
             android:fontFamily="@font/montserrat"
             android:textColor="#222222"
             android:inputType="textPassword"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="20dp"
             android:drawableEnd="@drawable/visibility_close"
             android:paddingRight="14dp"
             />
@@ -217,7 +217,9 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/register_button"
             android:fontFamily="@font/montserrat"
-            android:text="Register"
+            android:text="Login"
+            android:onClick="signin"
+            android:textAllCaps="false"
             android:textColor="@color/white" />
         <LinearLayout
             android:layout_width="match_parent"

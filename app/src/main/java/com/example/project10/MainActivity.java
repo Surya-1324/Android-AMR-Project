@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         int[] images = new int[] {

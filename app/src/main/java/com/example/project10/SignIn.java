@@ -82,9 +82,9 @@ public class SignIn extends AppCompatActivity {
         passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
-    public void register(View view) {
-
-
+    public void signin(View view) {
+        Intent intent = new Intent(SignIn.this, HomePage.class);
+        startActivity(intent);
     }
 
     public void signup(View view) {
