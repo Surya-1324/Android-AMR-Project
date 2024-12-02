@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.google.android.material:material:1.7.0")
+    implementation("org.java-websocket:Java-WebSocket:1.5.2")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)

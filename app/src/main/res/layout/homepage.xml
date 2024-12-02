@@ -8,52 +8,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="vertical">
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Home"
-            android:layout_marginVertical="10dp"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/montserrat"
-            android:textStyle="bold"
-            android:textSize="20sp" />
-        <FrameLayout
-            android:layout_width="35dp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginRight="70dp"
-            android:layout_height="35dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/notification" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/bell"
-                android:layout_gravity="center" />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="35dp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginRight="50dp"
-            android:layout_height="35dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/notification" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/bell"
-                android:layout_gravity="center" />
-        </FrameLayout>
+            android:text="Waiting for message..."
+            android:textSize="18sp" />
 
     </LinearLayout>
 
